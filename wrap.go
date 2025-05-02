@@ -39,9 +39,9 @@ func Wrap2[T1 any, T2 any, F func(T1, T2) error](f F) F {
 	}
 }
 
-// WrapReturn wraps a function which takes an argument and returns one value
+// Wrap1Return1 wraps a function which takes an argument and returns one value
 // (in addition to an error) in panic recovery code.
-func WrapReturn[T any, R any, F func(T) (R, error)](f F) F {
+func Wrap1Return1[T any, R any, F func(T) (R, error)](f F) F {
 	return func(t T) (result R, err error) {
 		defer func() {
 			errR := ErrRecover(recover())
@@ -53,9 +53,9 @@ func WrapReturn[T any, R any, F func(T) (R, error)](f F) F {
 	}
 }
 
-// WrapReturn wraps a function which takes two arguments and returns one value
+// Wrap2Return1 wraps a function which takes two arguments and returns one value
 // (in addition to an error) in panic recovery code.
-func WrapReturn2[T1 any, T2 any, R any, F func(T1, T2) (R, error)](f F) F {
+func Wrap2Return1[T1 any, T2 any, R any, F func(T1, T2) (R, error)](f F) F {
 	return func(t1 T1, t2 T2) (result R, err error) {
 		defer func() {
 			errR := ErrRecover(recover())

@@ -13,7 +13,7 @@ import (
 // The same principles apply to the other wrapping functions.
 func ExampleWrapReturn_bareWrapping() {
 	// An example function, which has a chance to panic.
-	panicFunc := panicgroup.WrapReturn(func(input string) (string, error) {
+	panicFunc := panicgroup.Wrap1Return1(func(input string) (string, error) {
 		panic(ErrSomethingTerrible)
 	})
 
@@ -27,7 +27,7 @@ func ExampleWrapReturn_bareWrapping() {
 		fmt.Println("The panic was successfully converted into an error.")
 	}
 
-	safeFunc := panicgroup.WrapReturn(func(input string) (string, error) {
+	safeFunc := panicgroup.Wrap1Return1(func(input string) (string, error) {
 		return input + "!", nil
 	})
 	result, err = safeFunc("this")
