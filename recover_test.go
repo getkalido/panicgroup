@@ -62,3 +62,32 @@ func ExampleWrapEgGoWithRecover_simplifiedWrapping() {
 	// Output:
 	// The panic was successfully converted into an error.
 }
+
+// CustomRecover illustrates how WrapEgGoWithRecover can be used
+// to recover from a panic and do something with tthe error before
+// returning.
+func ExampleWrapEgGoWithRecover_customRecover() {
+	errChan := make(chan error, 1)
+	// An example function, which has a chance to panic.
+	panicFunc := panicgroup.WrapEgGoWithCustomRecover(
+		func() (err error) { panic(ErrSomethingTerrible) },
+		func(err error) error {
+			errChan <- err
+			return nil
+		},
+	)
+
+	err := panicFunc()
+	if err == nil {
+		fmt.Println("No error was captured.")
+	} else {
+		fmt.Println("The panic was successfully converted into an error.")
+	}
+
+	if <-errChan != nil {
+		fmt.Println("The panic was successfully sent through a channel.")
+	}
+	// Output:
+	// No error was captured.
+	// The panic was successfully sent through a channel.
+}
